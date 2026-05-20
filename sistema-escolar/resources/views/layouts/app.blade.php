@@ -148,15 +148,6 @@
         </main>
     </div>
 
-    <style>
-        .nav-link {
-            @apply flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-slate-800 transition-colors;
-        }
-        .nav-link.active {
-            @apply bg-blue-600 text-white;
-        }
-    </style>
-
     <script>
         // Atualizar badge de notificações a cada 30 segundos
         async function atualizarBadge() {

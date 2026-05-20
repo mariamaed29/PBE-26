@@ -8,7 +8,7 @@ class AlunoRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return auth()->user()->isAqv();
+        return auth()->check();
     }
 
     public function rules(): array

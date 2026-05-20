@@ -8,7 +8,7 @@ class OcorrenciaRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return auth()->user()->isAqv();
+        return true;
     }
 
     public function rules(): array

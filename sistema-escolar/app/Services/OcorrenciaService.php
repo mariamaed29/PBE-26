@@ -41,8 +41,10 @@ class OcorrenciaService
             ]);
 
             // Notifica portaria
+            /** @var \Illuminate\Database\Eloquent\Collection<int, User> $portarias */
             $portarias = User::where('role', 'portaria')->get();
             foreach ($portarias as $portaria) {
+                /** @var User $portaria */
                 $this->notificacaoService->enviar(
                     ocorrencia: $ocorrencia,
                     usuario: $portaria,
@@ -52,8 +54,10 @@ class OcorrenciaService
             }
 
             // Notifica professores
+            /** @var \Illuminate\Database\Eloquent\Collection<int, User> $professores */
             $professores = User::where('role', 'professor')->get();
             foreach ($professores as $professor) {
+                /** @var User $professor */
                 $this->notificacaoService->enviar(
                     ocorrencia: $ocorrencia,
                     usuario: $professor,

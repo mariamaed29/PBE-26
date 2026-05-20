@@ -9,16 +9,18 @@ class NotificacaoController extends Controller
 {
     public function index()
     {
-        $notificacoes = auth()->user()->notificacoes()
+        $notificacoes = Notificacao::where('usuario_id', auth()->id())
             ->with('ocorrencia.aluno')
             ->latest()
             ->paginate(20);
 
         // Marca todas como lidas ao acessar a página
-        auth()->user()->notificacoesNaoLidas()->update([
-            'lida'    => true,
-            'lida_em' => now(),
-        ]);
+        Notificacao::where('usuario_id', auth()->id())
+            ->where('lida', false)
+            ->update([
+                'lida'    => true,
+                'lida_em' => now(),
+            ]);
 
         return view('notificacoes.index', compact('notificacoes'));
     }
@@ -36,7 +38,9 @@ class NotificacaoController extends Controller
 
     public function contarNaoLidas()
     {
-        $count = auth()->user()->notificacoesNaoLidas()->count();
+        $count = Notificacao::where('usuario_id', auth()->id())
+            ->where('lida', false)
+            ->count();
 
         return response()->json(['count' => $count]);
     }

@@ -68,13 +68,15 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
 
-        $notificacoes = $user->notificacoes()
-            ->with('ocorrencia.aluno')
+        $notificacoes = Notificacao::with('ocorrencia.aluno')
+            ->where('user_id', $user->id)
             ->latest()
             ->take(20)
             ->get();
 
-        $nao_lidas = $user->notificacoesNaoLidas()->count();
+        $nao_lidas = Notificacao::where('user_id', $user->id)
+            ->whereNull('lida_em')
+            ->count();
 
         $ocorrencias_turma = Ocorrencia::with('aluno')
             ->whereHas('aluno')
@@ -84,7 +86,7 @@ class DashboardController extends Controller
 
         $stats = [
             'notificacoes_nao_lidas' => $nao_lidas,
-            'total_notificacoes'     => $user->notificacoes()->count(),
+            'total_notificacoes'     => Notificacao::where('user_id', $user->id)->count(),
         ];
 
         return view('dashboard.professor', compact('stats', 'notificacoes', 'ocorrencias_turma', 'nao_lidas'));

@@ -18,8 +18,11 @@ class OcorrenciaController extends Controller
     {
         $query = Ocorrencia::with('aluno', 'aqv');
 
+        /** @var \App\Models\User|null $user */
+        $user = auth()->user();
+
         // Portaria vê apenas aprovados
-        if (auth()->user()->isPortaria()) {
+        if ($user?->isPortaria()) {
             $query->aprovados();
         }
 
@@ -54,8 +57,11 @@ class OcorrenciaController extends Controller
 
     public function create()
     {
+        /** @var \App\Models\User|null $user */
+        $user = auth()->user();
+
         // Apenas AQV pode registrar
-        if (!auth()->user()->isAqv()) {
+        if (! $user || ! $user->isAqv()) {
             abort(403);
         }
 
@@ -66,7 +72,10 @@ class OcorrenciaController extends Controller
 
     public function store(OcorrenciaRequest $request)
     {
-        if (!auth()->user()->isAqv()) {
+        /** @var \App\Models\User|null $user */
+        $user = auth()->user();
+
+        if (! $user || ! $user->isAqv()) {
             abort(403);
         }
 
@@ -85,7 +94,10 @@ class OcorrenciaController extends Controller
 
     public function aprovar(Ocorrencia $ocorrencia)
     {
-        if (!auth()->user()->isAqv()) {
+        /** @var \App\Models\User|null $user */
+        $user = auth()->user();
+
+        if (! $user || ! $user->isAqv()) {
             abort(403);
         }
 
@@ -97,7 +109,10 @@ class OcorrenciaController extends Controller
 
     public function negar(Ocorrencia $ocorrencia)
     {
-        if (!auth()->user()->isAqv()) {
+        /** @var \App\Models\User|null $user */
+        $user = auth()->user();
+
+        if (! $user || ! $user->isAqv()) {
             abort(403);
         }
 
@@ -109,7 +124,10 @@ class OcorrenciaController extends Controller
 
     public function confirmarPortaria(Ocorrencia $ocorrencia)
     {
-        if (!auth()->user()->isPortaria()) {
+        /** @var \App\Models\User|null $user */
+        $user = auth()->user();
+
+        if (! $user || ! $user->isPortaria()) {
             abort(403);
         }
 

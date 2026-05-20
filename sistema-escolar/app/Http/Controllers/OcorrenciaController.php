@@ -7,6 +7,7 @@ use App\Models\Ocorrencia;
 use App\Http\Requests\OcorrenciaRequest;
 use App\Services\OcorrenciaService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OcorrenciaController extends Controller
 {
@@ -19,7 +20,7 @@ class OcorrenciaController extends Controller
         $query = Ocorrencia::with('aluno', 'aqv');
 
         /** @var \App\Models\User|null $user */
-        $user = auth()->user();
+        $user = Auth::user();
 
         // Portaria vê apenas aprovados
         if ($user?->isPortaria()) {
@@ -58,7 +59,7 @@ class OcorrenciaController extends Controller
     public function create()
     {
         /** @var \App\Models\User|null $user */
-        $user = auth()->user();
+        $user = Auth::user();
 
         // Apenas AQV pode registrar
         if (! $user || ! $user->isAqv()) {
@@ -73,7 +74,7 @@ class OcorrenciaController extends Controller
     public function store(OcorrenciaRequest $request)
     {
         /** @var \App\Models\User|null $user */
-        $user = auth()->user();
+        $user = Auth::user();
 
         if (! $user || ! $user->isAqv()) {
             abort(403);
@@ -95,7 +96,7 @@ class OcorrenciaController extends Controller
     public function aprovar(Ocorrencia $ocorrencia)
     {
         /** @var \App\Models\User|null $user */
-        $user = auth()->user();
+        $user = Auth::user();
 
         if (! $user || ! $user->isAqv()) {
             abort(403);
@@ -110,7 +111,7 @@ class OcorrenciaController extends Controller
     public function negar(Ocorrencia $ocorrencia)
     {
         /** @var \App\Models\User|null $user */
-        $user = auth()->user();
+        $user = Auth::user();
 
         if (! $user || ! $user->isAqv()) {
             abort(403);
@@ -125,7 +126,7 @@ class OcorrenciaController extends Controller
     public function confirmarPortaria(Ocorrencia $ocorrencia)
     {
         /** @var \App\Models\User|null $user */
-        $user = auth()->user();
+        $user = Auth::user();
 
         if (! $user || ! $user->isPortaria()) {
             abort(403);

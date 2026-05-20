@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Ocorrencia;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class OcorrenciaService
 {
@@ -20,7 +21,7 @@ class OcorrenciaService
         return DB::transaction(function () use ($dados) {
             $ocorrencia = Ocorrencia::create([
                 ...$dados,
-                'aqv_id'           => auth()->id(),
+                'aqv_id'           => Auth::id(),
                 'data_ocorrencia'  => now(),
                 'status'           => 'pendente',
             ]);
@@ -86,7 +87,7 @@ class OcorrenciaService
     {
         $ocorrencia->update([
             'confirmacao_portaria' => now(),
-            'portaria_id'          => auth()->id(),
+            'portaria_id'          => Auth::id(),
         ]);
     }
 }

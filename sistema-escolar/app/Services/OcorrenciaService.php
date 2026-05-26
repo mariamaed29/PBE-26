@@ -6,6 +6,7 @@ use App\Models\Ocorrencia;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class OcorrenciaService
 {
@@ -25,6 +26,8 @@ class OcorrenciaService
                 'data_ocorrencia'  => now(),
                 'status'           => 'pendente',
             ]);
+
+            $this->notificarProfessorResponsavel($ocorrencia);
 
             return $ocorrencia;
         });
@@ -54,19 +57,29 @@ class OcorrenciaService
                 );
             }
 
-            // Notifica professores
-            /** @var \Illuminate\Database\Eloquent\Collection<int, User> $professores */
-            $professores = User::where('role', 'professor')->get();
-            foreach ($professores as $professor) {
-                /** @var User $professor */
-                $this->notificacaoService->enviar(
-                    ocorrencia: $ocorrencia,
-                    usuario: $professor,
-                    titulo: "Aluno com {$ocorrencia->tipoLabel()}: {$ocorrencia->aluno->nome}",
-                    mensagem: "O aluno {$ocorrencia->aluno->nome} (Turma: {$ocorrencia->aluno->turma}) teve {$ocorrencia->tipoLabel()} autorizada. Motivo: {$ocorrencia->motivo}"
-                );
-            }
         });
+    }
+
+    private function notificarProfessorResponsavel(Ocorrencia $ocorrencia): void
+    {
+        $ocorrencia->loadMissing('aluno.professorResponsavel');
+        $professor = $ocorrencia->aluno?->professorResponsavel;
+
+        if ($professor) {
+            $this->notificacaoService->enviar(
+                ocorrencia: $ocorrencia,
+                usuario: $professor,
+                titulo: "Aluno com {$ocorrencia->tipoLabel()}: {$ocorrencia->aluno->nome}",
+                mensagem: "O aluno {$ocorrencia->aluno->nome} (Turma: {$ocorrencia->aluno->turma}) registrou {$ocorrencia->tipoLabel()}. Motivo: {$ocorrencia->motivo}"
+            );
+
+            return;
+        }
+
+        Log::warning('Ocorrencia registrada sem professor responsavel vinculado ao aluno.', [
+            'ocorrencia_id' => $ocorrencia->id,
+            'aluno_id' => $ocorrencia->aluno_id,
+        ]);
     }
 
     /**

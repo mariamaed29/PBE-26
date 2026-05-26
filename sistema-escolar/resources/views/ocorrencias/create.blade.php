@@ -1,11 +1,11 @@
 @extends('layouts.app')
 @section('title', 'Nova Ocorr&ecirc;ncia')
-@section('page-title', 'Registrar Ocorr&ecirc;ncia')
+@section('page-title', 'Registrar Ocorrencia')
 
 @section('content')
 <div class="pt-4">
     <div class="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <p class="text-sm text-gray-500">Registre entradas atrasadas ou sa&iacute;das antecipadas dos alunos.</p>
+        <p class="text-sm text-gray-500">Registre entradas atrasadas ou saidas antecipadas dos alunos.</p>
         <a href="{{ route('ocorrencias.index') }}" class="btn-secondary">Voltar</a>
     </div>
 
@@ -15,7 +15,7 @@
                 @csrf
 
                 <div>
-                    <h2 class="text-base font-semibold text-gray-900">Dados da ocorr&ecirc;ncia</h2>
+                    <h2 class="text-base font-semibold text-gray-900">Dados da Ocorrencia</h2>
                     <p class="mt-1 text-sm text-gray-500">Selecione o aluno e informe o motivo do registro.</p>
                 </div>
 
@@ -25,11 +25,12 @@
                         <option value="">Selecione um aluno</option>
                         @foreach($alunos as $aluno)
                             <option value="{{ $aluno->id }}" {{ old('aluno_id') == $aluno->id ? 'selected' : '' }}>
-                                {{ $aluno->nome }} - RM {{ $aluno->rm }} - Turma {{ $aluno->turma }}
+                                {{ $aluno->nome }} - RM {{ $aluno->rm }} - Turma {{ $aluno->turma }} - Prof. {{ $aluno->professorResponsavel?->name }} ({{ $aluno->professorResponsavel?->email }})
                             </option>
                         @endforeach
                     </select>
                     @error('aluno_id') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
+                    <p class="mt-1 text-xs text-gray-500">A ocorrencia usar&aacute; automaticamente o e-mail do professor respons&aacute;vel vinculado ao aluno.</p>
                 </div>
 
                 <div>
@@ -46,7 +47,7 @@
                         <label class="flex cursor-pointer items-start gap-3 rounded-xl border border-gray-200 bg-white p-4 transition hover:border-blue-300 hover:bg-blue-50/40">
                             <input type="radio" name="tipo" value="saida_antecipada" required class="mt-1 border-gray-300 text-blue-600 focus:ring-blue-500" {{ old('tipo') === 'saida_antecipada' ? 'checked' : '' }}>
                             <span>
-                                <span class="block text-sm font-semibold text-gray-900">Sa&iacute;da antecipada</span>
+                                <span class="block text-sm font-semibold text-gray-900">Saida da antecipada</span>
                                 <span class="mt-1 block text-xs text-gray-500">Use quando o aluno precisar sair antes do hor&aacute;rio.</span>
                             </span>
                         </label>
@@ -56,19 +57,19 @@
 
                 <div>
                     <label for="motivo" class="form-label">Motivo *</label>
-                    <textarea id="motivo" name="motivo" rows="5" required class="form-input resize-y" placeholder="Descreva o motivo da ocorr&ecirc;ncia">{{ old('motivo') }}</textarea>
+                    <textarea id="motivo" name="motivo" rows="5" required class="form-input resize-y" placeholder="Descreva o motivo da ocorrencia">{{ old('motivo') }}</textarea>
                     @error('motivo') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
                 </div>
 
                 <div>
-                    <label for="observacao" class="form-label">Observa&ccedil;&atilde;o</label>
+                    <label for="observacao" class="form-label">Observacao </label>
                     <textarea id="observacao" name="observacao" rows="3" class="form-input resize-y" placeholder="Informa&ccedil;&otilde;es complementares, se houver">{{ old('observacao') }}</textarea>
                     @error('observacao') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
                 </div>
 
                 <div class="flex flex-col-reverse gap-3 border-t border-gray-200 pt-6 sm:flex-row sm:justify-end">
                     <a href="{{ route('ocorrencias.index') }}" class="btn-secondary">Cancelar</a>
-                    <button type="submit" class="btn-primary">Registrar ocorr&ecirc;ncia</button>
+                    <button type="submit" class="btn-primary">Registrar ocorrencia</button>
                 </div>
             </form>
         </section>
@@ -77,13 +78,13 @@
             <div class="panel p-5">
                 <h3 class="text-base font-semibold text-gray-900">Alunos ativos</h3>
                 <p class="mt-2 text-3xl font-bold text-gray-900">{{ $alunos->count() }}</p>
-                <p class="mt-1 text-sm text-gray-500">Apenas alunos ativos aparecem na sele&ccedil;&atilde;o.</p>
+                <p class="mt-1 text-sm text-gray-500">Apenas alunos ativos com professor respons&aacute;vel aparecem na sele&ccedil;&atilde;o.</p>
             </div>
 
             <div class="panel p-5">
                 <h3 class="text-base font-semibold text-gray-900">Depois do registro</h3>
                 <p class="mt-2 text-sm leading-6 text-gray-600">
-                    A ocorr&ecirc;ncia ser&aacute; salva como pendente. Em seguida, a AQV pode aprovar ou negar no detalhe da ocorr&ecirc;ncia.
+                    A ocorrencia ser&aacute; salva como pendente. Em seguida, a AQV pode aprovar ou negar no detalhe da ocorrencia.
                 </p>
             </div>
         </aside>

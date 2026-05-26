@@ -15,6 +15,7 @@ class Aluno extends Model
         'rm',
         'turma',
         'curso',
+        'professor_id',
         'responsavel',
         'telefone_responsavel',
         'email_responsavel',
@@ -29,6 +30,11 @@ class Aluno extends Model
     public function ocorrencias()
     {
         return $this->hasMany(Ocorrencia::class);
+    }
+
+    public function professorResponsavel()
+    {
+        return $this->belongsTo(User::class, 'professor_id');
     }
 
     // Atrasos do aluno
@@ -51,4 +57,3 @@ class Aluno extends Model
                      ->orWhere('turma', 'like', "%{$termo}%");
     }
 }
-

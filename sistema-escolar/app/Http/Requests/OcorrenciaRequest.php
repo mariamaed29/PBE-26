@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class OcorrenciaRequest extends FormRequest
 {
@@ -14,7 +15,11 @@ class OcorrenciaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'aluno_id'    => 'required|exists:alunos,id',
+            'aluno_id' => [
+                'required',
+                Rule::exists('alunos', 'id')
+                    ->where(fn ($query) => $query->where('ativo', true)->whereNotNull('professor_id')),
+            ],
             'tipo'        => 'required|in:entrada_atrasada,saida_antecipada',
             'motivo'      => 'required|string|max:1000',
             'observacao'  => 'nullable|string|max:1000',
@@ -25,12 +30,10 @@ class OcorrenciaRequest extends FormRequest
     {
         return [
             'aluno_id.required' => 'Selecione o aluno.',
-            'aluno_id.exists'   => 'Aluno não encontrado.',
-            'tipo.required'     => 'Selecione o tipo de ocorrência.',
-            'tipo.in'           => 'Tipo inválido.',
+            'aluno_id.exists'   => 'Aluno nao encontrado ou sem professor responsavel vinculado.',
+            'tipo.required'     => 'Selecione o tipo de ocorrencia.',
+            'tipo.in'           => 'Tipo invalido.',
             'motivo.required'   => 'Informe o motivo.',
         ];
     }
 }
-
-

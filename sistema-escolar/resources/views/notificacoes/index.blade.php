@@ -1,12 +1,12 @@
 @extends('layouts.app')
-@section('title', 'Notifica&ccedil;&otilde;es')
-@section('page-title', 'Notifica&ccedil;&otilde;es')
+@section('title', 'Notificacoes')
+@section('page-title', 'Notificacoes')
 
 @section('content')
 <div class="pt-4 space-y-5">
     <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-            <p class="text-sm text-gray-500">{{ $notificacoes->total() }} notifica&ccedil;&otilde;es recebidas</p>
+            <p class="text-sm text-gray-500">{{ $notificacoes->total() }} notificacoes recebidas</p>
         </div>
         <a href="{{ route('dashboard') }}" class="btn-secondary">Dashboard</a>
     </div>
@@ -54,14 +54,14 @@
                         </div>
 
                         @if($ocorrencia)
-                            <a href="{{ route('ocorrencias.show', $ocorrencia) }}" class="btn-secondary flex-shrink-0">Ver ocorr&ecirc;ncia</a>
+                            <a href="{{ route('ocorrencias.show', $ocorrencia) }}" class="btn-secondary flex-shrink-0">Ver ocorrencia</a>
                         @endif
                     </div>
                 </article>
             @empty
                 <div class="p-10 text-center">
                     <h2 class="text-base font-semibold text-gray-900">Nenhuma notifica&ccedil;&atilde;o</h2>
-                    <p class="mt-1 text-sm text-gray-500">Quando houver atualiza&ccedil;&otilde;es de ocorr&ecirc;ncias, elas aparecer&atilde;o aqui.</p>
+                    <p class="mt-1 text-sm text-gray-500">Quando houver atualiza&ccedil;&otilde;es de ocorrencias, elas aparecer&atilde;o aqui.</p>
                 </div>
             @endforelse
         </div>

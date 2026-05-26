@@ -66,7 +66,11 @@ class OcorrenciaController extends Controller
             abort(403);
         }
 
-        $alunos = Aluno::where('ativo', true)->orderBy('nome')->get();
+        $alunos = Aluno::with('professorResponsavel')
+            ->where('ativo', true)
+            ->whereNotNull('professor_id')
+            ->orderBy('nome')
+            ->get();
 
         return view('ocorrencias.create', compact('alunos'));
     }
@@ -138,4 +142,3 @@ class OcorrenciaController extends Controller
             ->with('success', 'Entrada/saída confirmada!');
     }
 }
-

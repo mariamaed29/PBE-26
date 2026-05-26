@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Aluno;
+use App\Models\User;
 use App\Http\Requests\AlunoRequest;
 use Illuminate\Http\Request;
 
@@ -35,7 +36,7 @@ class AlunoController extends Controller
             $query->where('curso', $request->curso);
         }
 
-        $alunos = $query->withCount('ocorrencias')->latest()->paginate(15);
+        $alunos = $query->with('professorResponsavel')->withCount('ocorrencias')->latest()->paginate(15);
         $turmas = Aluno::select('turma')->distinct()->pluck('turma');
         $cursos = Aluno::select('curso')->distinct()->pluck('curso');
 
@@ -44,7 +45,9 @@ class AlunoController extends Controller
 
     public function create()
     {
-        return view('alunos.create');
+        $professores = User::where('role', 'professor')->orderBy('name')->get();
+
+        return view('alunos.create', compact('professores'));
     }
 
     public function store(AlunoRequest $request)
@@ -57,6 +60,8 @@ class AlunoController extends Controller
 
     public function show(Aluno $aluno)
     {
+        $aluno->load('professorResponsavel');
+
         $ocorrencias = $aluno->ocorrencias()
             ->with('aqv', 'portaria')
             ->latest()
@@ -74,7 +79,9 @@ class AlunoController extends Controller
 
     public function edit(Aluno $aluno)
     {
-        return view('alunos.edit', compact('aluno'));
+        $professores = User::where('role', 'professor')->orderBy('name')->get();
+
+        return view('alunos.edit', compact('aluno', 'professores'));
     }
 
     public function update(AlunoRequest $request, Aluno $aluno)

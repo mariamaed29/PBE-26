@@ -1,6 +1,6 @@
 @extends('layouts.app')
-@section('title', 'Ocorr&ecirc;ncia')
-@section('page-title', 'Detalhes da Ocorr&ecirc;ncia')
+@section('title', 'Ocorrencia')
+@section('page-title', 'Detalhes da Ocorrencia')
 
 @section('content')
 @php
@@ -69,7 +69,7 @@
                     </dl>
                 @else
                     <p class="mt-4 rounded-lg bg-gray-50 px-4 py-3 text-sm text-gray-600">
-                        Aluno n&atilde;o encontrado para esta ocorr&ecirc;ncia.
+                        Aluno n&atilde;o encontrado para esta ocorrencia.
                     </p>
                 @endif
             </div>
@@ -88,7 +88,7 @@
 
             <div class="panel overflow-hidden">
                 <div class="border-b border-gray-200 px-5 py-4">
-                    <h3 class="text-base font-semibold text-gray-900">Notifica&ccedil;&otilde;es enviadas</h3>
+                    <h3 class="text-base font-semibold text-gray-900">Notificacoes enviadas</h3>
                 </div>
 
                 <div class="divide-y divide-gray-100">
@@ -119,7 +119,7 @@
                         </article>
                     @empty
                         <div class="p-8 text-center text-sm text-gray-500">
-                            Nenhuma notifica&ccedil;&atilde;o vinculada a esta ocorr&ecirc;ncia.
+                            Nenhuma notifica&ccedil;&atilde;o vinculada a esta ocorrencia.
                         </div>
                     @endforelse
                 </div>
@@ -128,7 +128,7 @@
 
         <aside class="space-y-5">
             <div class="panel p-5">
-                <h3 class="text-base font-semibold text-gray-900">Fluxo da ocorr&ecirc;ncia</h3>
+                <h3 class="text-base font-semibold text-gray-900">Fluxo da ocorrencia</h3>
                 <dl class="mt-4 space-y-4 text-sm">
                     <div>
                         <dt class="text-xs text-gray-500">Registrado por</dt>
@@ -162,13 +162,13 @@
                         <form method="POST" action="{{ route('ocorrencias.aprovar', $ocorrencia) }}">
                             @csrf
                             <button type="submit" class="w-full rounded-lg bg-green-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-green-700">
-                                Aprovar ocorr&ecirc;ncia
+                                Aprovar ocorrencia
                             </button>
                         </form>
                         <form method="POST" action="{{ route('ocorrencias.negar', $ocorrencia) }}">
                             @csrf
                             <button type="submit" class="w-full rounded-lg border border-red-200 bg-white px-4 py-2.5 text-sm font-semibold text-red-600 transition hover:bg-red-50">
-                                Negar ocorr&ecirc;ncia
+                                Negar ocorrencia
                             </button>
                         </form>
                     </div>
@@ -178,7 +178,7 @@
             @if(auth()->user()->isPortaria() && $ocorrencia->status === 'aprovado' && ! $ocorrencia->confirmacao_portaria)
                 <div class="panel p-5">
                     <h3 class="text-base font-semibold text-gray-900">Portaria</h3>
-                    <p class="mt-1 text-sm text-gray-500">Confirme quando a entrada ou sa&iacute;da for realizada fisicamente.</p>
+                    <p class="mt-1 text-sm text-gray-500">Confirme quando a entrada ou saidasda for realizada fisicamente.</p>
                     <form method="POST" action="{{ route('ocorrencias.confirmar-portaria', $ocorrencia) }}" class="mt-4">
                         @csrf
                         <button type="submit" class="btn-primary w-full">Confirmar portaria</button>

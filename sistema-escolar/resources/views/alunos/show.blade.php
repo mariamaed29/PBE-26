@@ -71,6 +71,26 @@
                 </div>
             </dl>
 
+            <div class="mt-5 border-t border-gray-200 pt-5">
+                <h3 class="text-base font-semibold text-gray-900">Professor respons&aacute;vel</h3>
+                @if($aluno->professorResponsavel)
+                    <dl class="mt-4 space-y-4 text-sm">
+                        <div>
+                            <dt class="text-xs text-gray-500">Nome</dt>
+                            <dd class="font-medium text-gray-900">{{ $aluno->professorResponsavel->name }}</dd>
+                        </div>
+                        <div>
+                            <dt class="text-xs text-gray-500">E-mail</dt>
+                            <dd class="font-medium text-gray-900">{{ $aluno->professorResponsavel->email }}</dd>
+                        </div>
+                    </dl>
+                @else
+                    <p class="mt-3 rounded-lg bg-yellow-50 px-4 py-3 text-sm text-yellow-800">
+                        Nenhum professor respons&aacute;vel vinculado a este aluno.
+                    </p>
+                @endif
+            </div>
+
             @if(auth()->user()->isAqv())
                 <form method="POST" action="{{ route('alunos.destroy', $aluno) }}" class="mt-6 border-t border-gray-200 pt-5" onsubmit="return confirm('Tem certeza que deseja remover este aluno?')">
                     @csrf
@@ -84,8 +104,8 @@
 
         <section class="panel overflow-hidden">
             <div class="border-b border-gray-200 px-5 py-4">
-                <h3 class="text-base font-semibold text-gray-900">Ocorr&ecirc;ncias</h3>
-                <p class="mt-1 text-sm text-gray-500">Hist&oacute;rico de entradas atrasadas e sa&iacute;das antecipadas.</p>
+                <h3 class="text-base font-semibold text-gray-900">Ocorrencias</h3>
+                <p class="mt-1 text-sm text-gray-500">Hist&oacute;rico de entradas atrasadas e saidasdas antecipadas.</p>
             </div>
 
             <div class="divide-y divide-gray-100">
@@ -132,7 +152,7 @@
                     </article>
                 @empty
                     <div class="p-10 text-center">
-                        <h4 class="text-base font-semibold text-gray-900">Sem ocorr&ecirc;ncias registradas</h4>
+                        <h4 class="text-base font-semibold text-gray-900">Sem ocorrencias registradas</h4>
                         <p class="mt-1 text-sm text-gray-500">Este aluno ainda n&atilde;o possui hist&oacute;rico.</p>
                     </div>
                 @endforelse

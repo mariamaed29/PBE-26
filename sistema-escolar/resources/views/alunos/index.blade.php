@@ -82,6 +82,16 @@
                         <dd class="truncate font-medium text-gray-800">{{ $aluno->curso }}</dd>
                     </div>
                     <div class="col-span-2">
+                        <dt class="text-xs text-gray-500">Professor responsavel</dt>
+                        <dd class="truncate font-medium text-gray-800">
+                            @if($aluno->professorResponsavel)
+                                {{ $aluno->professorResponsavel->name }}
+                            @else
+                                Nao definido
+                            @endif
+                        </dd>
+                    </div>
+                    <div class="col-span-2">
                         <dt class="text-xs text-gray-500">Responsavel</dt>
                         <dd class="truncate font-medium text-gray-800">{{ $aluno->responsavel }}</dd>
                     </div>

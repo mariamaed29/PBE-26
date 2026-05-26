@@ -39,6 +39,19 @@
                         <input type="text" name="curso" value="{{ old('curso') }}" required class="form-input" placeholder="Ex: Desenvolvimento de Sistemas">
                         @error('curso') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
                     </div>
+
+                    <div class="md:col-span-2">
+                        <label class="form-label">Professor respons&aacute;vel *</label>
+                        <select name="professor_id" required class="form-input">
+                            <option value="">Selecione o professor</option>
+                            @foreach($professores as $professor)
+                                <option value="{{ $professor->id }}" {{ old('professor_id') == $professor->id ? 'selected' : '' }}>
+                                    {{ $professor->name }} - {{ $professor->email }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('professor_id') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
+                    </div>
                 </div>
             </section>
 
